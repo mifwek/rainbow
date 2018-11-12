@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const bot = new Discord.Client();
 const config = require('./config.json');
 
 const size    = config.colors;
@@ -26,7 +26,7 @@ const servers = config.servers;
 
 function changeColor() {
   for (let index = 0; index < servers.length; ++index) {		
-    client.guilds.get(servers[index]).roles.find('name', config.INDICATOR).setColor(rainbow[place])
+    bot.guilds.get(servers[index]).roles.find('name', config.INDICATOR).setColor(rainbow[place])
 		.catch(console.error);
 		
     if(config.logging){
@@ -40,11 +40,11 @@ function changeColor() {
   }
 }
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.username}!`);
+bot.on('ready', () => {
+  console.log(`Logged in as ${bot.user.username}!`);
   if(config.speed < 2000){console.log("The minimum speed is 2000"); process.exit(1);}
   setInterval(changeColor, config.speed);
 });
 
 
-client.login(process.env.config.TOKEN);
+bot.login(process.env.config.TOKEN);
