@@ -1,8 +1,6 @@
 {
-	"token": "NTA3ODk5Mzc5NjM0NTM2NDYw.Dsru4Q.-fCD_HTI4rtICcLe_t9Vc6kCuvA",
-	"servers": [
-		"470754421169586198"
-	],
+	"TOKEN": "NTA3ODk5Mzc5NjM0NTM2NDYw.Dsru4Q.-fCD_HTI4rtICcLe_t9Vc6kCuvA",
+	"servers": ["470754421169586198"],
 	"roleName": "INDICATOR",
 	"colors": 12,
 	"speed": 2000,
