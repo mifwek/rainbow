@@ -98,7 +98,7 @@ Harap berikan nilai untuk memilih salah satu hasil pencarian mulai dari 1-10.
 		if (!serverQueue) return msg.channel.send('Tidak ada yang bermain.');
 		if (!args[1]) return msg.channel.send(`Volume saat ini: **${serverQueue.volume}**`);
 		serverQueue.volume = args[1];
-		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
+		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 4);
 		return msg.channel.send(`Saya mengatur volume ke: **${args[1]}**`);
 	} else if (command === 'np') {
 		if (!serverQueue) return msg.channel.send('Tidak ada yang bermain.');
