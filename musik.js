@@ -59,6 +59,7 @@ client.on('message', async msg => { // eslint-disable-line
 					let index = 0;
 					msg.channel.send(`
 __**Pemilihan lagu:**__
+\n
 ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
 \n
 Harap berikan nilai untuk memilih salah satu hasil pencarian mulai dari 1-10.
@@ -108,6 +109,7 @@ Harap berikan nilai untuk memilih salah satu hasil pencarian mulai dari 1-10.
 		if (!serverQueue) return msg.channel.send('```Tidak ada yang bermain.```');
 		return msg.channel.send(`
 __**Antrean lagu:**__
+\n
 ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
 \n
 **Sedang dimainkan:** ${serverQueue.songs[0].title}
