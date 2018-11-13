@@ -33,13 +33,13 @@ client.on('message', async msg => { // eslint-disable-line
 
 	if (command === 'play') {
 		const voiceChannel = msg.member.voiceChannel;
-		if (!voiceChannel) return msg.channel.send('Saya minta maaf, tetapi Kamu harus berada di saluran suara untuk memutar musik!');
+		if (!voiceChannel) return msg.channel.send('```Saya minta maaf, tetapi Kamu harus berada di saluran suara untuk memutar musik!```');
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
 		if (!permissions.has('CONNECT')) {
-			return msg.channel.send('Saya tidak dapat terhubung ke saluran suara Kamu, pastikan saya memiliki izin yang tepat!');
+			return msg.channel.send('```Saya tidak dapat terhubung ke saluran suara Kamu, pastikan saya memiliki izin yang tepat!```');
 		}
 		if (!permissions.has('SPEAK')) {
-			return msg.channel.send('Saya tidak dapat berbicara di saluran suara ini, pastikan saya memiliki izin yang tepat!');
+			return msg.channel.send('```Saya tidak dapat berbicara di saluran suara ini, pastikan saya memiliki izin yang tepat!```');
 		}
 
 		if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
@@ -60,6 +60,7 @@ client.on('message', async msg => { // eslint-disable-line
 					msg.channel.send(`
 __**Pemilihan lagu:**__
 ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
+\n
 Harap berikan nilai untuk memilih salah satu hasil pencarian mulai dari 1-10.
 					`);
 					// eslint-disable-next-line max-depth
@@ -71,31 +72,31 @@ Harap berikan nilai untuk memilih salah satu hasil pencarian mulai dari 1-10.
 						});
 					} catch (err) {
 						console.error(err);
-						return msg.channel.send('Nilai yang dimasukkan tidak valid, membatalkan pemilihan video.');
+						return msg.channel.send('```Nilai yang dimasukkan tidak valid, membatalkan pemilihan video.```');
 					}
 					const videoIndex = parseInt(response.first().content);
 					var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
 				} catch (err) {
 					console.error(err);
-					return msg.channel.send('🆘 Saya tidak dapat memperoleh hasil pencarian apa pun.');
+					return msg.channel.send('```🆘 Saya tidak dapat memperoleh hasil pencarian apa pun.```');
 				}
 			}
 			return handleVideo(video, msg, voiceChannel);
 		}
 	} else if (command === 'skip') {
-		if (!msg.member.voiceChannel) return msg.channel.send('Kamu tidak berada dalam saluran suara!');
-		if (!serverQueue) return msg.channel.send('Tidak ada permainan yang bisa saya lewati untuk Kamu.');
-		serverQueue.connection.dispatcher.end('Perintah Lewati telah digunakan!');
+		if (!msg.member.voiceChannel) return msg.channel.send('```Kamu tidak berada dalam saluran suara!```');
+		if (!serverQueue) return msg.channel.send('```Tidak ada permainan yang bisa saya lewati untuk Kamu.```');
+		serverQueue.connection.dispatcher.end('```Perintah Lewati telah digunakan!```');
 		return undefined;
 	} else if (command === 'stop') {
-		if (!msg.member.voiceChannel) return msg.channel.send('Kamu tidak berada dalam saluran suara!');
-		if (!serverQueue) return msg.channel.send('Tidak ada permainan yang bisa saya hentikan untuk Kamu.');
+		if (!msg.member.voiceChannel) return msg.channel.send('```Kamu tidak berada dalam saluran suara!```');
+		if (!serverQueue) return msg.channel.send('```Tidak ada permainan yang bisa saya hentikan untuk Kamu.```');
 		serverQueue.songs = [];
-		serverQueue.connection.dispatcher.end('Perintah Stop telah digunakan!');
+		serverQueue.connection.dispatcher.end('```Perintah Stop telah digunakan!```');
 		return undefined;
 	} else if (command === 'volume') {
-		if (!msg.member.voiceChannel) return msg.channel.send('Kamu tidak berada dalam saluran suara!');
-		if (!serverQueue) return msg.channel.send('Tidak ada yang bermain.');
+		if (!msg.member.voiceChannel) return msg.channel.send('```Kamu tidak berada dalam saluran suara!```');
+		if (!serverQueue) return msg.channel.send('```Tidak ada yang bermain.```');
 		if (!args[1]) return msg.channel.send(`Volume saat ini: **${serverQueue.volume}**`);
 		serverQueue.volume = args[1];
 		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 4);
@@ -104,26 +105,27 @@ Harap berikan nilai untuk memilih salah satu hasil pencarian mulai dari 1-10.
 		if (!serverQueue) return msg.channel.send('Tidak ada yang bermain.');
 		return msg.channel.send(`🎶 Sedang dimainkan: **${serverQueue.songs[0].title}**`);
 	} else if (command === 'queue') {
-		if (!serverQueue) return msg.channel.send('Tidak ada yang bermain.');
+		if (!serverQueue) return msg.channel.send('```Tidak ada yang bermain.```');
 		return msg.channel.send(`
 __**Antrean lagu:**__
 ${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
+\n
 **Sedang dimainkan:** ${serverQueue.songs[0].title}
 		`);
 	} else if (command === 'pause') {
 		if (serverQueue && serverQueue.playing) {
 			serverQueue.playing = false;
 			serverQueue.connection.dispatcher.pause();
-			return msg.channel.send('⏸ Menjeda musik untuk Kamu!');
+			return msg.channel.send('```⏸ Menjeda musik untuk Kamu!```');
 		}
-		return msg.channel.send('Tidak ada yang bermain.');
+		return msg.channel.send('```Tidak ada yang bermain.```');
 	} else if (command === 'resume') {
 		if (serverQueue && !serverQueue.playing) {
 			serverQueue.playing = true;
 			serverQueue.connection.dispatcher.resume();
-			return msg.channel.send('▶ Melanjutkan musik untuk Kamu!');
+			return msg.channel.send('```▶ Melanjutkan musik untuk Kamu!```');
 		}
-		return msg.channel.send('Tidak ada yang bermain.');
+		return msg.channel.send('```Tidak ada yang bermain.```');
 	}
 
 	return undefined;
@@ -180,7 +182,7 @@ function play(guild, song) {
 
 	const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
 		.on('end', reason => {
-			if (reason === 'Streaming tidak menghasilkan cukup cepat.') console.log('Lagu telah selesai.');
+			if (reason === '```Streaming tidak menghasilkan cukup cepat.```') console.log('```Lagu telah selesai.```');
 			else console.log(reason);
 			serverQueue.songs.shift();
 			play(guild, serverQueue.songs[0]);
