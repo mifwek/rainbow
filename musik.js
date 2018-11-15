@@ -88,14 +88,14 @@ Harap berikan nilai untuk memilih salah satu hasil pencarian mulai dari 1-10.
 		if (!msg.member.voiceChannel) return msg.channel.send('```Kamu tidak berada dalam saluran suara!```');
 		if (!serverQueue) return msg.channel.send('```Tidak ada permainan yang bisa saya lewati untuk Kamu.```');
 		serverQueue.connection.dispatcher.end
-		('```Perintah lewati telah digunakan```');
+		('```Perintah lewati telah digunakan```')
 		return undefined;
 	} else if (command === 'leave') {
 		if (!msg.member.voiceChannel) return msg.channel.send('```Kamu tidak berada dalam saluran suara!```');
 		if (!serverQueue) return msg.channel.send('```Tidak ada permainan yang bisa saya hentikan untuk Kamu.```');
 		serverQueue.songs = [];
 		serverQueue.connection.dispatcher.end
-		('```Perintah leave telah digunakan```');
+		('```Perintah leave telah digunakan```')
 		return undefined;
 	} else if (command === 'volume') {
 		if (!msg.member.voiceChannel) return msg.channel.send('```Kamu tidak berada dalam saluran suara!```');
